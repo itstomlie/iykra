@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: tommy-iykra-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=employees_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./src/scripts/create_employees_db.sql:/docker-entrypoint-initdb.d/create_employees_db.sql
+
+  app:
+    image: tommy-iykra
+    container_name: tommy-iykra-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=employees_db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      - db
