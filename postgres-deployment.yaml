@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tommy-iykra-postgres-deployment
+  labels:
+    app: tommy-iykra-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tommy-iykra-postgres
+  template:
+    metadata:
+      labels:
+        app: tommy-iykra-postgres
+    spec:
+      containers:
+        - name: tommy-iykra-postgres
+          image: postgres:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: init-scripts
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: init-scripts
+          configMap:
+            name: postgres-config
+            items:
+              - key: create_employees_db.sql
+                path: create_employees_db.sql
+              - key: seed_employees_data.sql
+                path: seed_employees_data.sql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tommy-iykra-postgres-service
+spec:
+  selector:
+    app: tommy-iykra-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432

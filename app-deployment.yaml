@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tommy-iykra-app-deployment
+  labels:
+    app: tommy-iykra-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tommy-iykra-app
+  template:
+    metadata:
+      labels:
+        app: tommy-iykra-app
+    spec:
+      containers:
+        - name: tommy-iykra-app
+          image: itstomlie/tommy-iykra:v2
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres-url
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_PORT
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tommy-iykra-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: tommy-iykra-app
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 30100
