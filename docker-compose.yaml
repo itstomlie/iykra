@@ -10,7 +10,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - ./src/scripts/create_employees_db.sql:/docker-entrypoint-initdb.d/create_employees_db.sql
+      - ./src/scripts/init_employees_db.sql:/docker-entrypoint-initdb.d/init_employees_db.sql
 
   app:
     image: tommy-iykra

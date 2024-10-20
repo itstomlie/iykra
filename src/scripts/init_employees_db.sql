@@ -1,7 +1,5 @@
--- Switch to the employees_db database
 \connect employees_db;
 
--- Create the employees table
 CREATE TABLE IF NOT EXISTS employees (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -9,7 +7,6 @@ CREATE TABLE IF NOT EXISTS employees (
   salary INTEGER NOT NULL   
 );
 
--- Insert sample data into the employees table
 INSERT INTO employees (name, position, salary) VALUES
   ('John Doe', 'Software Engineer', 80000),
   ('Jane Smith', 'Data Scientist', 95000),
