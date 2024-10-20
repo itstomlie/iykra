@@ -25,7 +25,7 @@ app.use(
 );
 app.use("/api/employees", employeeRoutes);
 
-app.get("/ping", (req, res) => {
+app.get("/", (req, res) => {
   res.status(HttpStatusCode.OK).json({
     success: true,
     message: "Tommy IYKRA api server is running",
