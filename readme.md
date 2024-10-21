@@ -1,4 +1,7 @@
-# How to run the app
+# Application Deployment
+The app is deployed in Google Kubernetes Engine accessible in `http://34.101.199.30:3000/`
+
+# How to run the app locally
 
 > Note: This app is using minikube & docker to run the app, if you want to run the app on your local machine, you can use the following steps:
 
