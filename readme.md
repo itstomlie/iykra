@@ -1,5 +1,5 @@
 # Application Deployment
-The app is deployed in Google Kubernetes Engine accessible in `http://34.101.199.30:3000/`
+This app is deployed in Google Kubernetes Engine accessible in `http://34.101.199.30:3000/`
 
 # How to run the app locally
 
