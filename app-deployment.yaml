@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: tommy-iykra-app
-          image: itstomlie/tommy-iykra:v2
+          # image: itstomlie/tommy-iykra:v2
+          image: asia-southeast2-docker.pkg.dev/corded-protocol-439301-n5/tommy-iykra/tommy-iykra:v2
           resources:
             limits:
               memory: "128Mi"
